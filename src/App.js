@@ -33,6 +33,14 @@ function App() {
     setIsEditable(false);
   }
 
+
+  const deleteHandler = (id) => {
+    // const toBeDeletedTodo = todoList.find(todo => todo.id === id);
+
+    const newTodoList = todoList.filter(todo => todo.id !== id);
+      setTodoList(newTodoList);
+  }
+
   return (
     <div className="App">
        <form>
@@ -47,7 +55,7 @@ function App() {
             <li>
             <span>{todo.title}</span>
             <button onClick={()=> editHandler(todo.id)}>Edit</button>
-            <button>Delete</button>
+            <button onClick={() => deleteHandler(todo.id)}>Delete</button>
             </li>
 
         ))}
