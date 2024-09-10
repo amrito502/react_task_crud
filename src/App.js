@@ -15,8 +15,26 @@ function App() {
       id: Date.now(),
       title: todoTitle,
     }
-    setTodoList([...todoList, newTodo]);
-    setTodoTitle("");
+
+
+    fetch('http://localhost:3000/todos', {
+      method: 'POST',
+      body: JSON.stringify(newTodo),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then((data) => {
+      // setTodoList([...todoList, newTodo]);
+      // setTodoTitle("");
+      fetch('http://localhost:3000/todos')
+      .then(response => response.json())
+      .then((data) => {
+        setTodoList(data);
+        setTodoTitle("");
+      })
+    })
   }
 
   const editHandler = (id) => {
