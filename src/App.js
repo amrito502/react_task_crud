@@ -26,11 +26,20 @@ function App() {
     setTodoTitle(tobeEditedTodo.title);
   }
 
+  const updateHandler = (e) => {
+    e.preventDefault();
+    editableTodo.title = todoTitle;
+    setTodoTitle("");
+    setIsEditable(false);
+  }
+
   return (
     <div className="App">
        <form>
         <input type="text" name='todoTitle' value={todoTitle} onChange={(e)=> setTodoTitle(e.target.value)} />
-        <button onClick={(e)=> createHandler(e)}>Add Todo</button>
+        <button onClick={(e)=> isEditable === true ? updateHandler(e) : createHandler(e)}>
+          {isEditable === true ? "Update Todo" : "Add Todo"}
+        </button>
        </form>
 
        <ul>
