@@ -10,13 +10,10 @@ function App() {
 
   const createHandler = (e) => {
     e.preventDefault();
-
     const newTodo = {
       id: Date.now(),
       title: todoTitle,
     }
-
-
     fetch('http://localhost:3000/todos', {
       method: 'POST',
       body: JSON.stringify(newTodo),
@@ -46,17 +43,43 @@ function App() {
 
   const updateHandler = (e) => {
     e.preventDefault();
-    editableTodo.title = todoTitle;
-    setTodoTitle("");
-    setIsEditable(false);
+    fetch(`http://localhost:3000/todos/${editableTodo.id}`,{
+      method: 'PATCH',
+      body: JSON.stringify({
+        title: todoTitle
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(() => {
+      fetch('http://localhost:3000/todos')
+      .then(response => response.json())
+      .then(data => {
+        setTodoList(data);
+        setTodoTitle("");
+        setIsEditable(false);
+        setEditableTodo(null);
+      })
+    })
   }
 
 
   const deleteHandler = (id) => {
     // const toBeDeletedTodo = todoList.find(todo => todo.id === id);
-
-    const newTodoList = todoList.filter(todo => todo.id !== id);
-      setTodoList(newTodoList);
+    // const newTodoList = todoList.filter(todo => todo.id !== id);
+    //   setTodoList(newTodoList);
+    const todo = todoList.find(todo => todo.id === id);
+    fetch(`http://localhost:3000/todos/${todo.id}`,{
+      method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(()=> {
+      fetch('http://localhost:3000/todos')
+      .then(response => response.json())
+      .then(data => setTodoList(data))
+    })
   }
 // ==========show-data in api===========
   useEffect(() => {
