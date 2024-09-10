@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 
 
@@ -40,6 +40,12 @@ function App() {
     const newTodoList = todoList.filter(todo => todo.id !== id);
       setTodoList(newTodoList);
   }
+// ==========show-data in api===========
+  useEffect(() => {
+    fetch('http://localhost:3000/todos')
+      .then(response => response.json())
+      .then(data => setTodoList(data))
+  }, [])
 
   return (
     <div className="App">
