@@ -5,12 +5,25 @@ import './App.css';
 function App() {
   const [todoTitle, setTodoTitle] = useState("");
   const [todoList, setTodoList] = useState([]);
-
+  const [isEditable, setIsEditable] = useState(false);
+  const [editableTodo, setEditableTodo] = useState(null);
 
   const createHandler = (e) => {
     e.preventDefault();
-    setTodoList([...todoList, todoTitle]);
+
+    const newTodo = {
+      id: Date.now(),
+      title: todoTitle,
+    }
+    setTodoList([...todoList, newTodo]);
     setTodoTitle("");
+  }
+
+  const editHandler = (id) => {
+    const tobeEditedTodo = todoList.find(todo => todo.id === id);
+    setIsEditable(true);
+    setEditableTodo(tobeEditedTodo);
+    setTodoTitle(tobeEditedTodo.title);
   }
 
   return (
@@ -22,11 +35,16 @@ function App() {
 
        <ul>
         {todoList.map(todo => (
-            <li>{todo}</li>
+            <li>
+            <span>{todo.title}</span>
+            <button onClick={()=> editHandler(todo.id)}>Edit</button>
+            <button>Delete</button>
+            </li>
+
         ))}
        </ul>
     </div>
   );
 }
 
-export default App;
+export default App; 
