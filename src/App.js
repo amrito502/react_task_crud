@@ -7,7 +7,9 @@ function App() {
 
   const createHandler = (e) => {
     e.preventDefault();
-    setTodoList([...todoList, todoTitle]);
+    // setTodoList([...todoList, todoTitle]);
+    setTodoList([todoTitle, ...todoList]);
+    setTodoTitle("");
   } 
 
 
